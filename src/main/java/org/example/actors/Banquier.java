@@ -1,5 +1,6 @@
 package org.example.actors;
 
+import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 
 /**
@@ -10,5 +11,11 @@ import akka.actor.ActorRef;
  *   - refuser le retrait du client
  *
  */
-public class Banquier {
+public class Banquier extends AbstractActor {
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder()
+                //Dès qu'on recoit la demande de la banque de vérifier le compte du client
+                .build();
+    }
 }

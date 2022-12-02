@@ -3,8 +3,8 @@ package org.example;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import org.apache.log4j.BasicConfigurator;
-import org.example.actors.Bank;
-import org.example.actors.Client;
+import org.example.actors.BankActor;
+import org.example.actors.ClientActor;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,16 +14,12 @@ public class Main {
         System.out.println("Application lancé");
         ActorSystem system = ActorSystem.create("gestion-de-compte-bancaire");
 
-        ActorRef client = system.actorOf(Client.props(1,1, 300));
-        ActorRef client2 = system.actorOf(Client.props(2,2, 200));
-        ActorRef client3 = system.actorOf(Client.props(3,3, 100));
+        ActorRef client = system.actorOf(ClientActor.props(1,1, 300));
 
-        ActorRef bank = system.actorOf(Bank.props(1));
+        ActorRef bank = system.actorOf(BankActor.props(1));
 
         //Le client demande a la banque de déposer 20€
-        bank.tell(new Client.Deposit(20), client);
-        bank.tell(new Client.Deposit(40), client2);
-        bank.tell(new Client.Deposit(30), client3);
+        bank.tell(new ClientActor.Deposit(20), client);
 
         system.terminate();
     }
