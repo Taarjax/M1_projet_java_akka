@@ -1,7 +1,6 @@
 package org.example.actors;
 
 import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
 
 /**
  * Le banquier peut :
@@ -11,7 +10,7 @@ import akka.actor.ActorRef;
  *   - refuser le retrait du client
  *
  */
-public class Banquier extends AbstractActor {
+public class BanquierActeur extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder()
