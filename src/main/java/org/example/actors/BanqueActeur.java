@@ -1,6 +1,7 @@
 package org.example.actors;
 
 import akka.actor.AbstractActor;
+import org.example.model.BanquierModel;
 
 /**
  * La banque peut :
@@ -8,6 +9,8 @@ import akka.actor.AbstractActor;
  */
 public class BanqueActeur extends AbstractActor {
 
+//  Attributs
+    BanquierModel referenceBanquier
     @Override
     public Receive createReceive() {
         return null;
