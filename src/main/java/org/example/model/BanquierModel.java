@@ -12,4 +12,20 @@ public class BanquierModel {
     }
 
 
+//    GETTER ET SETTER
+    public int getIdBanquier() {
+        return idBanquier;
+    }
+
+    public void setIdBanquier(int idBanquier) {
+        this.idBanquier = idBanquier;
+    }
+
+    public ActorRef getReferenceActeurBanquier() {
+        return ReferenceActeurBanquier;
+    }
+
+    public void setReferenceActeurBanquier(ActorRef referenceActeurBanquier) {
+        ReferenceActeurBanquier = referenceActeurBanquier;
+    }
 }
