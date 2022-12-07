@@ -18,12 +18,12 @@ import java.util.ArrayList;
 public class BanquierActeur extends AbstractActor {
 
     ArrayList<CompteModel> listeCompte;
-    public BanquierActeur(){
-
+    public BanquierActeur(ArrayList<CompteModel> _listeCompte){
+        this.listeCompte = _listeCompte;
     }
 
-    public static Props props(ArrayList<BanquierModel> _listeBanquier) {
-        return Props.create(BanqueActeur.class, _listeBanquier);
+    public static Props props(ArrayList<CompteModel> _listeComptes) {
+        return Props.create(BanquierActeur.class, _listeComptes);
     }
 
     @Override

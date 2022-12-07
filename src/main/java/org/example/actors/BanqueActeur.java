@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class BanqueActeur extends AbstractActor {
 
     //Attributs
-    private final ArrayList listeBanquier;
+    private final ArrayList<BanquierModel> listeBanquier;
 
-    public BanqueActeur(){
-        this.listeBanquier = new ArrayList<BanquierModel>();
+    public BanqueActeur(ArrayList<BanquierModel> _listeBanquier){
+        this.listeBanquier = _listeBanquier;
     }
 
     public static Props props(ArrayList<BanquierModel> _listeBanquier) {
@@ -44,12 +44,12 @@ public class BanqueActeur extends AbstractActor {
     //    ----------------------FIN-MESSAGE-------------------------------
 
     private void demandeAuxBanquier(long idClient, String demande, long montant) {
-        if (demande == "dépot") {
-            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
-        }
-        else if (demande == "retrait") {
-            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
-        }
+//        if (demande == "dépot") {
+//            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
+//        }
+//        else if (demande == "retrait") {
+//            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
+//        }
 
         //ICI on attend la réponse des banquiers pour savoir si c'est possible ou non
 
