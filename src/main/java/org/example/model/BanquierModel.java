@@ -1,13 +1,18 @@
 package org.example.model;
 import akka.actor.ActorRef;
 
+import java.util.ArrayList;
+
 public class BanquierModel {
     // Attribut
     private int idBanquier;
     private ActorRef ReferenceActeurBanquier;
 
-    public BanquierModel(int _idBanquier, ActorRef _referenceActeurBanquier) {
+    private ArrayList<CompteModel> listeCompteParBanquier;
+
+    public BanquierModel(int _idBanquier, ArrayList<CompteModel> _listeCompteParBanquier, ActorRef _referenceActeurBanquier) {
         this.idBanquier = _idBanquier;
+        this.listeCompteParBanquier = _listeCompteParBanquier;
         this.ReferenceActeurBanquier = _referenceActeurBanquier;
     }
 
@@ -27,5 +32,13 @@ public class BanquierModel {
 
     public void setReferenceActeurBanquier(ActorRef referenceActeurBanquier) {
         ReferenceActeurBanquier = referenceActeurBanquier;
+    }
+
+    public ArrayList<CompteModel> getListeCompteParBanquier() {
+        return listeCompteParBanquier;
+    }
+
+    public void setListeCompteParBanquier(ArrayList<CompteModel> listeCompteParBanquier) {
+        this.listeCompteParBanquier = listeCompteParBanquier;
     }
 }

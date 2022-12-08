@@ -3,16 +3,19 @@ package org.example.model;
 import akka.actor.ActorRef;
 import org.example.actors.ClientActeur;
 
+import java.util.ArrayList;
+
 public class ClientModel {
 // Déclaration attribut
 
     private long idClient;
-    private long idCompte;
+
+    private ArrayList<CompteModel> compte;
     private ActorRef refActeurClient;
 
-    public ClientModel(long idClient, long idCompte, ActorRef refActeurClient) {
+    public ClientModel(long idClient, ArrayList<CompteModel> compte, ActorRef refActeurClient) {
         this.idClient = idClient;
-        this.idCompte = idCompte;
+        this.compte = compte;
         this.refActeurClient = refActeurClient;
     }
 
@@ -26,23 +29,19 @@ public class ClientModel {
         return refActeurClient;
     }
 
-    public void setrefActeurClient(ActorRef refActeurClient) {
-        this.refActeurClient = refActeurClient;
-    }
-
     public long getIdClient() {
         return idClient;
     }
 
-    public void setIdClient(long idClient) {
-        this.idClient = idClient;
+    public ArrayList<CompteModel> getCompte() {
+        return compte;
     }
 
-    public long getIdCompte() {
-        return idCompte;
+    public void setCompte(ArrayList<CompteModel> compte) {
+        this.compte = compte;
     }
 
-    public void setIdCompte(long idCompte) {
-        this.idCompte = idCompte;
-    }
+
 }
+
+

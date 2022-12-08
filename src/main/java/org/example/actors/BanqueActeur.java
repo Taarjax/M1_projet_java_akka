@@ -2,10 +2,13 @@ package org.example.actors;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
-import org.example.model.BanqueModel;
+import akka.pattern.Patterns;
 import org.example.model.BanquierModel;
+import org.example.model.CompteModel;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.concurrent.CompletionStage;
 
 public class BanqueActeur extends AbstractActor {
 
@@ -44,16 +47,26 @@ public class BanqueActeur extends AbstractActor {
     //    ----------------------FIN-MESSAGE-------------------------------
 
     private void demandeAuxBanquier(long idClient, String demande, long montant) {
-//        if (demande == "dépot") {
-//            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
-//        }
-//        else if (demande == "retrait") {
-//            System.out.println("CLIENT " + idClient + " | Demande d'un " + demande + " de " + montant);
-//        }
 
-        //ICI on attend la réponse des banquiers pour savoir si c'est possible ou non
+        //Pour chaque banquier, on lui demande s'il gère le compte de la demande
 
-        getSender().tell("Possible", getSender());
+
+
+        for(BanquierModel banquier : listeBanquier){
+//            System.out.println("id banquier : "  + banquier.getIdBanquier() + "s'occupe des comptes : "
+//                    + banquier.getListeCompteParBanquier());
+            CompletionStage<Object> demandeBanqueVersBanquier = Patterns.ask(banquier.getReferenceActeurBanquier(),
+                    new BanquierActeur.demandeBanqueVersBanquier(demande, idClient, montant), Duration.ofSeconds(10));
+            try {
+                String réponse = (String) demandeBanqueVersBanquier.toCompletableFuture().get();
+                System.out.println(réponse);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Réponse de la banque aux clients
+        getSender().tell("Réponse de la banque vers le client", getSender());
     }
 
     @Override
@@ -61,10 +74,6 @@ public class BanqueActeur extends AbstractActor {
         return receiveBuilder()
                 .match(demandeBanque.class, message -> demandeAuxBanquier(message.idClient, message.demande, message.montant))
                 .build();
-    }
-
-    public ArrayList getListeBanquier() {
-        return listeBanquier;
     }
 
 

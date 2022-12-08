@@ -26,10 +26,34 @@ public class BanquierActeur extends AbstractActor {
         return Props.create(BanquierActeur.class, _listeComptes);
     }
 
+    public interface Message{}
+    public static class demandeBanqueVersBanquier implements Message{
+        final String demande;
+        final long montant;
+        final long idClient;
+
+        public demandeBanqueVersBanquier(String demande, long montant, long idClient) {
+            this.demande = demande;
+            this.montant = montant;
+            this.idClient = idClient;
+        }
+    }
+
+        private void verificationDemande(String demande, long idClient, long montant){
+
+            System.out.println("Compte : " + this.listeCompte);
+
+            for(CompteModel compte : this.listeCompte) {
+            }
+
+            getSender().tell("Réponse des banquiers vers la banque", getSender());
+        }
+
     @Override
     public Receive createReceive() {
         return receiveBuilder()
                 //Dès qu'on recoit la demande de la banque de vérifier le compte du client
+                .match(demandeBanqueVersBanquier.class, message -> verificationDemande(message.demande, message.idClient, message.montant))
                 .build();
     }
 }

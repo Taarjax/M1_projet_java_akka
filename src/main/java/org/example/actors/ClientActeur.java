@@ -52,8 +52,12 @@ public class ClientActeur extends AbstractActor {
         CompletionStage<Object> demande = Patterns.ask(banque.getRefActeurBanque(),
                 new BanqueActeur.demandeBanque(idClient, _demande, montant), Duration.ofSeconds(10));
         try {
-            String isPossible = (String) demande.toCompletableFuture().get();
-            System.out.println(isPossible);
+            //Questionnement à la banque (message bloquant, on attend une réponse)
+            //Réponse de la banque vers le client
+            //Réponse présente dans la classe banqueActeur au lancement de demandeAuxBanquier() dans le createReceive,
+            // C'est-à-dire dès qu'on reçoit un message de type demandeBanque.class
+            String réponse = (String) demande.toCompletableFuture().get();
+            System.out.println(réponse);
         } catch (Exception e) {
             e.printStackTrace();
         }
