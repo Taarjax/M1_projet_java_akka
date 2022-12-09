@@ -33,24 +33,27 @@ public class ClientActeur extends AbstractActor {
 
     public static class demandeClient implements Message {
         final String demande;
-        final long montant;
+        long montant;
         final long idClient;
+        final long idCompte;
 
-        public demandeClient(long idClient, String demande, long montant) {
+        public demandeClient(long idClient, String demande, long montant, long idCompte) {
             this.idClient = idClient;
             this.demande = demande;
             this.montant = montant;
+            this.idCompte = idCompte;
         }
     }
 
 
     //    ----------------------FIN-MESSAGE-------------------------------
 
-    public void demandeAlabanque(long idClient, String _demande, long montant) {
+    public void demandeAlabanque(long idClient, String _demande, long montant, long idCompte) {
+        System.out.println("Le client : " + idClient + " demande un : " + _demande + " de " + montant + " €");
 
         //Je demande a la banque
         CompletionStage<Object> demande = Patterns.ask(banque.getRefActeurBanque(),
-                new BanqueActeur.demandeBanque(idClient, _demande, montant), Duration.ofSeconds(10));
+                new BanqueActeur.demandeBanque(idClient, _demande, montant, idCompte), Duration.ofSeconds(10));
         try {
             //Questionnement à la banque (message bloquant, on attend une réponse)
             //Réponse de la banque vers le client
@@ -66,7 +69,7 @@ public class ClientActeur extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder().
-                match(demandeClient.class, message -> demandeAlabanque(message.idClient, message.demande, message.montant)).
+                match(demandeClient.class, message -> demandeAlabanque(message.idClient, message.demande, message.montant, message.idCompte)).
                 build();
     }
 

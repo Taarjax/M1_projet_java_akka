@@ -35,28 +35,30 @@ public class BanqueActeur extends AbstractActor {
         final String demande;
         final long montant;
         final long idClient;
+        final long idCompte;
 
-        public demandeBanque(long idClient, String demande, long montant) {
+        public demandeBanque(long idClient, String demande, long montant, long idCompte) {
             this.idClient = idClient;
             this.demande = demande;
             this.montant = montant;
+            this.idCompte = idCompte;
         }
     }
 
 
+
+
     //    ----------------------FIN-MESSAGE-------------------------------
 
-    private void demandeAuxBanquier(long idClient, String demande, long montant) {
+    private void demandeAuxBanquier(long idClient, String demande, long montant, long idCompte) {
+
 
         //Pour chaque banquier, on lui demande s'il gère le compte de la demande
-
-
-
         for(BanquierModel banquier : listeBanquier){
-//            System.out.println("id banquier : "  + banquier.getIdBanquier() + "s'occupe des comptes : "
-//                    + banquier.getListeCompteParBanquier());
+
             CompletionStage<Object> demandeBanqueVersBanquier = Patterns.ask(banquier.getReferenceActeurBanquier(),
-                    new BanquierActeur.demandeBanqueVersBanquier(demande, idClient, montant), Duration.ofSeconds(10));
+                    new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, banquier.getIdBanquier(), idCompte), Duration.ofSeconds(10));
+
             try {
                 String réponse = (String) demandeBanqueVersBanquier.toCompletableFuture().get();
                 System.out.println(réponse);
@@ -72,7 +74,7 @@ public class BanqueActeur extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder()
-                .match(demandeBanque.class, message -> demandeAuxBanquier(message.idClient, message.demande, message.montant))
+                .match(demandeBanque.class, message -> demandeAuxBanquier(message.idClient, message.demande, message.montant, message.idCompte))
                 .build();
     }
 

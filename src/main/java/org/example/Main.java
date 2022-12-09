@@ -13,6 +13,8 @@ import org.example.model.CompteModel;
 
 import java.util.*;
 
+import static java.lang.System.in;
+
 
 public class Main {
 
@@ -40,9 +42,9 @@ public class Main {
         System.out.println("Application lancé");
 
 //      Création des comptes (MODEL)
-        CompteModel compte1 = new CompteModel( 1, 1,2000);
+        CompteModel compte1 = new CompteModel( 1, 1,300);
         CompteModel compte2 = new CompteModel( 2, 2,4000);
-        CompteModel compte3 = new CompteModel( 3, 1,2000);
+        CompteModel compte3 = new CompteModel( 3, 1,500);
         CompteModel compte4 = new CompteModel( 4, 3,2000);
         CompteModel compte5 = new CompteModel( 5, 4,2000);
         CompteModel compte6 = new CompteModel( 6, 5,2000);
@@ -91,17 +93,21 @@ public class Main {
         ClientModel client1 = new ClientModel(1, comptesDuClient1, actorClient);
         ClientModel client2 = new ClientModel(2, comptesDuClient2, actorClient);
 
+
         //Création d'une liste de client, pratique pour faire une boucle de demande
         ArrayList<ClientModel> listeClient = new ArrayList<>();
         listeClient.add(client1);
-//        listeClient.add(client2);
+        listeClient.add(client2);
+
 
         System.out.println("Taille de la liste de client : " + listeClient.size());
 //        ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
+
+
         for (int i = 0; i <= listeClient.size() - 1; i++) {
             ClientModel client = listeClient.get(i);
-            client.lancement(client.getIdClient(), randomDemande(), randomNumber(0, 200));
-//            System.out.println("Client n° " + client.getIdClient() + " à pour compte le compte n° :  " + client.getCompte());
+            //client.lancement(client.getIdClient(), randomDemande(), randomNumber(0, 200));
+           client.lancement(client.getIdClient(), "retrait", 200, 1);
         }
 
 

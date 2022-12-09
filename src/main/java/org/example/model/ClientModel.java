@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public class ClientModel {
 // Déclaration attribut
 
-    private long idClient;
+    private final long idClient;
 
-    private ArrayList<CompteModel> compte;
-    private ActorRef refActeurClient;
+    private final ArrayList<CompteModel> compte;
+    private final ActorRef refActeurClient;
 
     public ClientModel(long idClient, ArrayList<CompteModel> compte, ActorRef refActeurClient) {
         this.idClient = idClient;
@@ -19,8 +19,8 @@ public class ClientModel {
         this.refActeurClient = refActeurClient;
     }
 
-    public void lancement(long idClient, String demande, long montant) {
-        refActeurClient.tell(new ClientActeur.demandeClient(idClient, demande, montant), ActorRef.noSender());
+    public void lancement(long idClient, String demande, long montant, long idCompte) {
+        refActeurClient.tell(new ClientActeur.demandeClient(idClient, demande, montant, idCompte), ActorRef.noSender());
     }
 
 
@@ -37,9 +37,7 @@ public class ClientModel {
         return compte;
     }
 
-    public void setCompte(ArrayList<CompteModel> compte) {
-        this.compte = compte;
-    }
+
 
 
 }
