@@ -41,4 +41,12 @@ public class BanquierModel {
     public void setListeCompteParBanquier(ArrayList<CompteModel> listeCompteParBanquier) {
         this.listeCompteParBanquier = listeCompteParBanquier;
     }
+
+    @Override
+    public String toString() {
+        return "BANQUIER : " +this.idBanquier + " |" + listeCompteParBanquier.toString();
+    }
+
+    //    public ArrayList<BanquierModel> getBanquier
+
 }

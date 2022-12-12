@@ -3,11 +3,13 @@ package org.example.model;
 public class CompteModel {
     private long idClient;
     private long idCompte;
+    private long idBanquier;
     private long soldeCompte;
 
-    public CompteModel(long idCompte, long idClient, long soldeCompte) {
+    public CompteModel(long idCompte, long idClient, long idBanquier, long soldeCompte) {
         this.idCompte = idCompte;
         this.idClient = idClient;
+        this.idBanquier = idBanquier;
         this.soldeCompte = soldeCompte;
     }
 
@@ -29,8 +31,9 @@ public class CompteModel {
 
     @Override
     public String toString() {
-        return Long.toString(idCompte);
+        return "CLIENT : " + idClient + " | COMPTE : " + idCompte ;
     }
+
 
     public long getIdClient() {
         return idClient;
@@ -39,4 +42,14 @@ public class CompteModel {
     public void setIdClient(long idClient) {
         this.idClient = idClient;
     }
+
+    public long getIdBanquier() {
+        return idBanquier;
+    }
+
+    public void setIdBanquier(long idBanquier) {
+        this.idBanquier = idBanquier;
+    }
+
+
 }

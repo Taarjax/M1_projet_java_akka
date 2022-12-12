@@ -49,7 +49,7 @@ public class ClientActeur extends AbstractActor {
     //    ----------------------FIN-MESSAGE-------------------------------
 
     public void demandeAlabanque(long idClient, String _demande, long montant, long idCompte) {
-        System.out.println("Le client : " + idClient + " demande un : " + _demande + " de " + montant + " €");
+        System.out.println("Le client : " + idClient + " demande un : " + _demande + " de " + montant + " € sur le compte : " + idCompte);
 
         //Je demande a la banque
         CompletionStage<Object> demande = Patterns.ask(banque.getRefActeurBanque(),
@@ -59,8 +59,9 @@ public class ClientActeur extends AbstractActor {
             //Réponse de la banque vers le client
             //Réponse présente dans la classe banqueActeur au lancement de demandeAuxBanquier() dans le createReceive,
             // C'est-à-dire dès qu'on reçoit un message de type demandeBanque.class
-            String réponse = (String) demande.toCompletableFuture().get();
-            System.out.println(réponse);
+            String reponseDeLaBanque = (String) demande.toCompletableFuture().get();
+
+            System.out.println("réponse finale : " + reponseDeLaBanque);
         } catch (Exception e) {
             e.printStackTrace();
         }

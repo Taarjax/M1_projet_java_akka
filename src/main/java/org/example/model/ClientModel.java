@@ -33,13 +33,10 @@ public class ClientModel {
         return idClient;
     }
 
+
     public ArrayList<CompteModel> getCompte() {
         return compte;
     }
-
-
-
-
 }
 
 

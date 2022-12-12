@@ -8,25 +8,27 @@ import java.util.ArrayList;
 
 /**
  * Le banquier peut :
- *   - accepter le dépot du client
- *   - refuser le dépot du client
- *   - accepter le retrait du client
- *   - refuser le retrait du client
- *
+ * - accepter le dépot du client
+ * - refuser le dépot du client
+ * - accepter le retrait du client
+ * - refuser le retrait du client
  */
 public class BanquierActeur extends AbstractActor {
 
-    ArrayList<CompteModel> listeCompte;
-    public BanquierActeur(ArrayList<CompteModel> _listeCompte){
-        this.listeCompte = _listeCompte;
+    ArrayList<CompteModel> listeCompteParBanquier;
+
+    public BanquierActeur(ArrayList<CompteModel> _listeCompte) {
+        this.listeCompteParBanquier = _listeCompte;
     }
 
-    public static Props props(ArrayList<CompteModel> _listeComptes) {
-        return Props.create(BanquierActeur.class, _listeComptes);
+    public static Props props(ArrayList<CompteModel> _listeCompteParBanquier) {
+        return Props.create(BanquierActeur.class, _listeCompteParBanquier);
     }
 
-    public interface Message{}
-    public static class demandeBanqueVersBanquier implements Message{
+    public interface Message {
+    }
+
+    public static class demandeBanqueVersBanquier implements Message {
         final String demande;
         final long montant;
         final long idClient;
@@ -43,37 +45,15 @@ public class BanquierActeur extends AbstractActor {
     }
 
 
-        private void verificationDemande(String demande, long idClient, long montant, long idBanquier, long idCompte){
-            String reponse  = "";
-            //System.out.println("Compte : " + this.listeCompte);
+    private void verificationDemande(String demande, long idClient, long montant, long idBanquier, long idCompte) {
+        String reponse = "bon compte";
+        //Parcourir tous les comptes du banquier
+        // Par exemple, le client 1 souhaite faire une demande sur son compte 1
+        //Dans ce cas this.listeCompteParBanquier contiendra tous les compte du banquier 1 car c'est lui qui s'occupe
+        // du compte 1
 
-
-            for(CompteModel compte : this.listeCompte) {
-//                System.out.println(" avant : " + compte.getSoldeCompte());
-                //Si le compte de la demande est dans la liste des comptes que s'occupe le banquier
-                if (idClient == compte.getIdClient() && idCompte == compte.getIdCompte()) {
-                    //Si la demande est un dépot
-                    if(demande == "dépot"){
-                    }//Sinon retrait
-                    else{
-                        if(compte.getSoldeCompte() < montant){
-                            reponse = "La demande n'est pas possible, vous avez " + compte.getSoldeCompte() + " € disponible sur votre compte " +
-                                    "alors que vous souhaitez retirez " + montant + " €";
-                        }
-                        else{
-                            reponse = "La demande est possible. Vous avez " + compte.getSoldeCompte() + " €, et souhaitez retirez " + montant + " €";
-//                            compte.setSoldeCompte(compte.getSoldeCompte() - montant);
-//                            System.out.println(" après : " + compte.getSoldeCompte());
-                        }
-                    }
-                }
-                else if(idClient == compte.getIdClient() && idCompte != compte.getIdCompte()){
-                    reponse = "Vous demandez d'accéder au compte : " + idCompte + " qui n'est pas votre compte, vous avez comme compte : " + compte.getIdCompte();
-                }
-
-            }
-            getSender().tell(reponse, getSender());
-        }
+        getSender().tell(reponse, getSender());
+    }
 
     @Override
     public Receive createReceive() {
