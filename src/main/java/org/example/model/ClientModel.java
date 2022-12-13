@@ -20,6 +20,7 @@ public class ClientModel {
     }
 
     public void lancement(long idClient, String demande, long montant, long idCompte) {
+        System.out.println("Client " + idClient + " demande un : " + demande + " de " + montant + " € sur le compte : " + idCompte);
         refActeurClient.tell(new ClientActeur.demandeClient(idClient, demande, montant, idCompte), ActorRef.noSender());
     }
 

@@ -106,24 +106,24 @@ public class Main {
         ClientModel client2 = new ClientModel(2, comptesDuClient2, actorClient);
         ClientModel client3 = new ClientModel(3, comptesDuClient3, actorClient);
 
-
         //Création d'une liste de client, pratique pour faire une boucle de demande
         ArrayList<ClientModel> listeClient = new ArrayList<>();
         listeClient.add(client1);
         listeClient.add(client2);
         listeClient.add(client3);
 
-
         System.out.println("------------------------------------");
         System.out.println("Taille de la liste de client : " + listeClient.size());
         System.out.println("Taille de la liste des banquiers : " + listeBanquier.size());
         System.out.println("------------------------------------");
-//        ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
 
-        client1.lancement(client1.getIdClient(), "retrait", 200, );
-        //client2.lancement(client2.getIdClient(), "retrait", 200, 2);
-        //client3.lancement(client3.getIdClient(), "retrait", 400, 6);
 
+//      ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
+        client1.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
+        client2.lancement(client2.getIdClient(), randomDemande(), randomNumber(0,500), 2);
+        client2.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 3);
+        client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 4);
+        client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 9);
 
 
 
