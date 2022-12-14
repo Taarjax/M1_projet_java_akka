@@ -47,8 +47,7 @@ public class Main {
         CompteModel compte2 = new CompteModel( 2, 2,1,4000);
         CompteModel compte3 = new CompteModel( 3, 1,2,500);
         CompteModel compte4 = new CompteModel( 4, 3,3,2000);
-        //CompteModel compte5 = new CompteModel( 5, 4,1,2000);
-        CompteModel compte6 = new CompteModel( 6, 3,3,2000);
+        CompteModel compte5 = new CompteModel( 5, 3,3,2000);
 
 //      Liste des comptes géré par le banquier
 //      Banquier1
@@ -63,7 +62,7 @@ public class Main {
 
         ArrayList<CompteModel> listeComptePourBanquier3 = new ArrayList<>();
         listeComptePourBanquier3.add(compte4);
-        listeComptePourBanquier3.add(compte6);
+        listeComptePourBanquier3.add(compte5);
 
 
 //      Création des banquiers utilisants la liste des comptes
@@ -87,24 +86,16 @@ public class Main {
         BanqueModel banque = new BanqueModel(1, actorBanque);
 
 //      Création des clients avec leur compte correspondant
-        ActorRef actorClient = system.actorOf(ClientActeur.props(banque));
+        ActorRef actorClient1 = system.actorOf(ClientActeur.props(banque));
+        ActorRef actorClient2 = system.actorOf(ClientActeur.props(banque));
+        ActorRef actorClient3 = system.actorOf(ClientActeur.props(banque));
 
-//      On remarque que le client 1 à 2 comptes
-        ArrayList<CompteModel> comptesDuClient1 = new ArrayList<>();
-        ArrayList<CompteModel> comptesDuClient2 = new ArrayList<>();
-        ArrayList<CompteModel> comptesDuClient3 = new ArrayList<>();
 
-        comptesDuClient1.add(compte1);
-        comptesDuClient1.add(compte3);
 
-        comptesDuClient2.add(compte2);
 
-        comptesDuClient3.add(compte4);
-        comptesDuClient3.add(compte6);
-
-        ClientModel client1 = new ClientModel(1, comptesDuClient1, actorClient);
-        ClientModel client2 = new ClientModel(2, comptesDuClient2, actorClient);
-        ClientModel client3 = new ClientModel(3, comptesDuClient3, actorClient);
+        ClientModel client1 = new ClientModel(1, actorClient1);
+        ClientModel client2 = new ClientModel(2, actorClient2);
+        ClientModel client3 = new ClientModel(3, actorClient3);
 
         //Création d'une liste de client, pratique pour faire une boucle de demande
         ArrayList<ClientModel> listeClient = new ArrayList<>();
@@ -120,10 +111,10 @@ public class Main {
 
 //      ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
         client1.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
-        client2.lancement(client2.getIdClient(), randomDemande(), randomNumber(0,500), 2);
-        client2.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 3);
-        client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 4);
-        client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 9);
+        //client2.lancement(client2.getIdClient(), randomDemande(), randomNumber(0,500), 2);
+        //client2.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 3);
+        //client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 4);
+        //client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 9);
 
 
 

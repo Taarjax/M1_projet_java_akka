@@ -8,12 +8,7 @@ import org.example.model.BanqueModel;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
-/**
- * Le client peut :
- * - déposer de l'argent sur son compte
- * - retirer de l'argent de son compte
- * - Obtenir les informations de son compte
- */
+
 public class ClientActeur extends AbstractActor {
 
     private final BanqueModel banque;
@@ -56,15 +51,11 @@ public class ClientActeur extends AbstractActor {
         try {
             String reponseDeLaBanque = (String) demande.toCompletableFuture().get();
             System.out.println("Client " + idClient +" : Retour de la banque reçu ! ");
-            System.out.println("Réponse en question : " + reponseDeLaBanque);
+            System.out.println("Réponse client " +idClient+" en question : " +  reponseDeLaBanque);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void DemandeAlaBanqueTell(long idClient, String _demande, long montant, long idCompte) {
-        System.out.println("Le client : " + idClient + " demande un : " + _demande + " de " + montant + " € sur le compte : " + idCompte);
     }
 
     @Override

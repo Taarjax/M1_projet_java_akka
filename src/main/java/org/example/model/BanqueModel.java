@@ -20,15 +20,4 @@ public class BanqueModel {
         return refActeurBanque;
     }
 
-    public void setRefActeurBanque(ActorRef refActeurBanque) {
-        this.refActeurBanque = refActeurBanque;
-    }
-
-    public long getIdBanque() {
-        return idBanque;
-    }
-
-    public void setIdBanque(long idBanque) {
-        this.idBanque = idBanque;
-    }
 }

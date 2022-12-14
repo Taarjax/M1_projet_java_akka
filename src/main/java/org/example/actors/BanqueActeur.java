@@ -73,7 +73,7 @@ public class BanqueActeur extends AbstractActor {
                     new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, idCompte, temp_banquier.getIdBanquier()), Duration.ofSeconds(10));
             try {
                 reponseDesBanquiers = (String) demandeBanqueVersBanquier.toCompletableFuture().get();
-                System.out.println("Banque: Retour de la réponse du banquier");
+                System.out.println("Banque: Retour de la réponse du banquier " + temp_banquier.getIdBanquier() + " concernant le client " + idClient );
                 getSender().tell(reponseDesBanquiers, getSelf());
             } catch (Exception e) {
                 e.printStackTrace();

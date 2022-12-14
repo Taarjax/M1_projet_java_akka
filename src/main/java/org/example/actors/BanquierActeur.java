@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class BanquierActeur extends AbstractActor {
 
-    ArrayList<CompteModel> listeCompteParBanquier;
+    private ArrayList<CompteModel> listeCompteParBanquier;
 
     public BanquierActeur(ArrayList<CompteModel> _listeCompte) {
         this.listeCompteParBanquier = _listeCompte;
@@ -33,7 +33,7 @@ public class BanquierActeur extends AbstractActor {
         final long montant;
         final long idClient;
         final long idCompte;
-        private long idBanquier;
+        final long idBanquier;
 
         public demandeBanqueVersBanquier(long idClient, String demande, long montant, long idCompte, long idBanquier) {
             this.idClient = idClient;

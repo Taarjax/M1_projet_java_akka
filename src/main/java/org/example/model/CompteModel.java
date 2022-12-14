@@ -6,6 +6,14 @@ public class CompteModel {
     private long idBanquier;
     private long soldeCompte;
 
+    //Constructeur utile pour la db
+    public CompteModel(long idClient, long idBanquier, long soldeCompte){
+        this.idClient = idClient;
+        this.idBanquier = idBanquier;
+        this.soldeCompte = soldeCompte;
+    }
+
+    //Constructeur utile lors des test sans DB
     public CompteModel(long idCompte, long idClient, long idBanquier, long soldeCompte) {
         this.idCompte = idCompte;
         this.idClient = idClient;
@@ -25,31 +33,17 @@ public class CompteModel {
         return idCompte;
     }
 
-    public void setIdCompte(long idCompte) {
-        this.idCompte = idCompte;
-    }
-
     @Override
     public String toString() {
         return "CLIENT : " + idClient + " | COMPTE : " + idCompte ;
     }
 
-
     public long getIdClient() {
         return idClient;
-    }
-
-    public void setIdClient(long idClient) {
-        this.idClient = idClient;
     }
 
     public long getIdBanquier() {
         return idBanquier;
     }
-
-    public void setIdBanquier(long idBanquier) {
-        this.idBanquier = idBanquier;
-    }
-
 
 }

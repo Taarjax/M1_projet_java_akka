@@ -10,34 +10,26 @@ public class ClientModel {
 
     private final long idClient;
 
-    private final ArrayList<CompteModel> compte;
     private final ActorRef refActeurClient;
 
-    public ClientModel(long idClient, ArrayList<CompteModel> compte, ActorRef refActeurClient) {
+    public ClientModel(long idClient, ActorRef refActeurClient) {
         this.idClient = idClient;
-        this.compte = compte;
         this.refActeurClient = refActeurClient;
     }
 
     public void lancement(long idClient, String demande, long montant, long idCompte) {
         System.out.println("Client " + idClient + " demande un : " + demande + " de " + montant + " € sur le compte : " + idCompte);
+
+
         refActeurClient.tell(new ClientActeur.demandeClient(idClient, demande, montant, idCompte), ActorRef.noSender());
     }
 
 
     //    GETTER ET SETTER
-    public ActorRef getrefActeurClient() {
-        return refActeurClient;
-    }
-
     public long getIdClient() {
         return idClient;
     }
 
-
-    public ArrayList<CompteModel> getCompte() {
-        return compte;
-    }
 }
 
 
