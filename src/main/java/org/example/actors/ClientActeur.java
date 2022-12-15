@@ -27,16 +27,41 @@ public class ClientActeur extends AbstractActor {
     }
 
     public static class demandeClient implements Message {
-        final String demande;
+        String demande;
         long montant;
-        final long idClient;
-        final long idCompte;
+        long idClient;
+        long idCompte;
+
+        public demandeClient() {
+        }
 
         public demandeClient(long idClient, String demande, long montant, long idCompte) {
             this.idClient = idClient;
             this.demande = demande;
             this.montant = montant;
             this.idCompte = idCompte;
+        }
+
+        //GETTERS
+        public String getDemande() {
+            return this.demande;
+        }
+
+        public long getMontant() {
+            return this.montant;
+        }
+
+        public long getIdClient() {
+            return this.idClient;
+        }
+
+        public long getIdCompte() {
+            return this.idCompte;
+        }
+
+        @Override
+        public String toString() {
+            return "Client n°"+this.idClient+" à demandé un "+this.demande+" de "+this.montant +" sur le compte "+this.idCompte;
         }
     }
 
@@ -50,8 +75,8 @@ public class ClientActeur extends AbstractActor {
                 new BanqueActeur.demandeBanque(idClient, _demande, montant, idCompte), Duration.ofSeconds(10));
         try {
             String reponseDeLaBanque = (String) demande.toCompletableFuture().get();
-            System.out.println("Client " + idClient +" : Retour de la banque reçu ! ");
-            System.out.println("Réponse client " +idClient+" en question : " +  reponseDeLaBanque);
+            System.out.println("Client " + idClient + " : Retour de la banque reçu ! ");
+            System.out.println("Réponse client " + idClient + " en question : " + reponseDeLaBanque);
 
         } catch (Exception e) {
             e.printStackTrace();

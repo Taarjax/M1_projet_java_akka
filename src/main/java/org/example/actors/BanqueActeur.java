@@ -70,7 +70,7 @@ public class BanqueActeur extends AbstractActor {
         if (estLeBonCompte) {
             System.out.println("Banque: interroge votre banquier pour savoir si votre demande est possible, il s'agit du banquier "+ temp_banquier.getIdBanquier());
             CompletionStage<Object> demandeBanqueVersBanquier = Patterns.ask(temp_banquier.getReferenceActeurBanquier(),
-                    new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, idCompte, temp_banquier.getIdBanquier()), Duration.ofSeconds(10));
+                    new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, idCompte, temp_banquier.getIdBanquier()), Duration.ofSeconds(1));
             try {
                 reponseDesBanquiers = (String) demandeBanqueVersBanquier.toCompletableFuture().get();
                 System.out.println("Banque: Retour de la réponse du banquier " + temp_banquier.getIdBanquier() + " concernant le client " + idClient );

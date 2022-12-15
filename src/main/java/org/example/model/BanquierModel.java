@@ -6,17 +6,23 @@ import java.util.ArrayList;
 public class BanquierModel {
     // Attribut
     private long idBanquier;
+
+    private String nom;
     private ActorRef ReferenceActeurBanquier;
 
     private ArrayList<CompteModel> listeCompteParBanquier;
 
 
-    public BanquierModel( ActorRef _referenceActeurBanquier) {
-        this.ReferenceActeurBanquier = _referenceActeurBanquier;
+    public BanquierModel() {}
+
+    public BanquierModel(long idBanquier, String nom) {
+        this.idBanquier = idBanquier;
+        this.nom = nom;
     }
 
-    public BanquierModel(long _idBanquier, ArrayList<CompteModel> _listeCompteParBanquier, ActorRef _referenceActeurBanquier) {
+    public BanquierModel(long _idBanquier, String nom, ArrayList<CompteModel> _listeCompteParBanquier, ActorRef _referenceActeurBanquier) {
         this.idBanquier = _idBanquier;
+        this.nom = nom;
         this.listeCompteParBanquier = _listeCompteParBanquier;
         this.ReferenceActeurBanquier = _referenceActeurBanquier;
     }
@@ -37,7 +43,24 @@ public class BanquierModel {
 
     @Override
     public String toString() {
-        return "BANQUIER : " +this.idBanquier + " |" + listeCompteParBanquier.toString();
+        return "BANQUIER: " +this.idBanquier + " | NOM: "+this.nom + " gère " + listeCompteParBanquier.toString();
     }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setReferenceActeurBanquier(ActorRef ReferenceActeurBanquier) {
+        this.ReferenceActeurBanquier = ReferenceActeurBanquier;
+    }
+
+    public void setListeCompteParBanquier(ArrayList<CompteModel> listeCompteParBanquier) {
+        this.listeCompteParBanquier = listeCompteParBanquier;
+    }
+
 
 }

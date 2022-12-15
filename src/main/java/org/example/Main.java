@@ -14,7 +14,6 @@ import org.example.model.CompteModel;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.System.in;
 
 
 public class Main {
@@ -67,13 +66,13 @@ public class Main {
 
 //      Création des banquiers utilisants la liste des comptes
         ActorRef acteurBanquier1 = system.actorOf(BanquierActeur.props(listeComptePourBanquier1));
-        BanquierModel banquier1 = new BanquierModel(1, listeComptePourBanquier1,acteurBanquier1);
+        BanquierModel banquier1 = new BanquierModel(1, "Christophe", listeComptePourBanquier1,acteurBanquier1);
 
         ActorRef acteurBanquier2 = system.actorOf(BanquierActeur.props(listeComptePourBanquier2));
-        BanquierModel banquier2 = new BanquierModel(2,listeComptePourBanquier2 ,acteurBanquier2);
+        BanquierModel banquier2 = new BanquierModel(2, "Remy", listeComptePourBanquier2 ,acteurBanquier2);
 
         ActorRef acteurBanquier3 = system.actorOf(BanquierActeur.props(listeComptePourBanquier3));
-        BanquierModel banquier3 = new BanquierModel(3,listeComptePourBanquier3 ,acteurBanquier3);
+        BanquierModel banquier3 = new BanquierModel(3, "Tom", listeComptePourBanquier3 ,acteurBanquier3);
 
 //      Ajout des banquiers dans une liste (utile pour la banque)
         ArrayList<BanquierModel> listeBanquier = new ArrayList<>();
@@ -110,7 +109,7 @@ public class Main {
 
 
 //      ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
-        client1.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
+        //client1.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
         //client2.lancement(client2.getIdClient(), randomDemande(), randomNumber(0,500), 2);
         //client2.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 3);
         //client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 4);

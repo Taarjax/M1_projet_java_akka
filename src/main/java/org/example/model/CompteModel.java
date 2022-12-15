@@ -1,17 +1,17 @@
 package org.example.model;
 
+import org.example.DAO.DAO;
+import org.example.DAO.DAOFactory;
+
 public class CompteModel {
     private long idClient;
     private long idCompte;
     private long idBanquier;
     private long soldeCompte;
 
-    //Constructeur utile pour la db
-    public CompteModel(long idClient, long idBanquier, long soldeCompte){
-        this.idClient = idClient;
-        this.idBanquier = idBanquier;
-        this.soldeCompte = soldeCompte;
+    public CompteModel() {
     }
+
 
     //Constructeur utile lors des test sans DB
     public CompteModel(long idCompte, long idClient, long idBanquier, long soldeCompte) {
@@ -35,7 +35,7 @@ public class CompteModel {
 
     @Override
     public String toString() {
-        return "CLIENT : " + idClient + " | COMPTE : " + idCompte ;
+        return "Compte n°" + idCompte + " | CLIENT : " + idClient + " | SOLDE : " + this.soldeCompte;
     }
 
     public long getIdClient() {
