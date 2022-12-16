@@ -119,18 +119,14 @@ public class MainDBO {
 
 
         //Demande du client 1
-        ClientActeur.demandeClient demande1 = new ClientActeur.demandeClient(client1.getIdClient(), "dépot", 500, 1);
-        ClientActeur.demandeClient demande2 = new ClientActeur.demandeClient(client2.getIdClient(), "dépot", 500 ,2);
-        ClientActeur.demandeClient demande3 = new ClientActeur.demandeClient(client3.getIdClient(), "retrait", randomNumber(0,500) ,4);
+        ClientActeur.demandeClient demande1 = new ClientActeur.demandeClient(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
+        ClientActeur.demandeClient demande2 = new ClientActeur.demandeClient(client2.getIdClient(), randomDemande(), randomNumber(0,500) ,2);
+        ClientActeur.demandeClient demande3 = new ClientActeur.demandeClient(client3.getIdClient(), randomDemande(), randomNumber(0,500) ,4);
 
 
         client1.lancement(demande1);
         client2.lancement(demande2);
-        //client3.lancement(demande3);
-
-
-
-
+        client3.lancement(demande3);
 
         system.terminate();
 

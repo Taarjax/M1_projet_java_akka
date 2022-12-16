@@ -2,11 +2,13 @@ package org.example.actors;
 
 import akka.actor.AbstractActor;
 import akka.actor.Props;
+import org.example.DAO.CompteDAO;
 import org.example.DAO.DAO;
 import org.example.DAO.DAOFactory;
 import org.example.model.CompteModel;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -53,6 +55,9 @@ public class BanquierActeur extends AbstractActor {
         //On parcourt tous les comptes que le banquier du client gère
 
         DAO<ClientActeur.demandeClient> demandeDAO = DAOFactory.getDemandeDAO();
+        DAO<CompteModel> compteDAO = new CompteDAO();
+        ClientActeur.demandeClient demandeBDD = new ClientActeur.demandeClient(idClient, demande, montant, idCompte);
+
 
         for (CompteModel compte : this.listeCompteParBanquier) {
             //On sélectionne le compte demandé par le client
@@ -64,26 +69,28 @@ public class BanquierActeur extends AbstractActor {
                         getSender().tell("Impossible de réaliser votre demande, vous souhaitez retirer " + montant + " € alors que vous disposez de " + compte.getSoldeCompte() + " €", getSelf());
                     } else {
                         System.out.println("Banquier " + idBanquier + ": Demande accepté");
-//                        ClientActeur.demandeClient demandeBDD = new ClientActeur.demandeClient(idClient, demande, montant, idCompte);
-//                        demandeDAO.create(demandeBDD);
+                        demandeDAO.create(demandeBDD);
 
                         compte.setSoldeCompte(compte.getSoldeCompte() - montant);
+                        CompteModel compte_modifie = new CompteModel(compte.getIdCompte(), compte.getIdClient(),compte.getIdBanquier(),compte.getSoldeCompte());
+                        compteDAO.update(compte_modifie);
 
                         getSender().tell("Vous avez à present : " + compte.getSoldeCompte() + " € sur votre compte n°" + compte.getIdCompte(), getSelf());
 
                     }
                 } else if (demande == "dépot") {
                     System.out.println("Banquier " + idBanquier + ": Demande accepté");
-
-                    ClientActeur.demandeClient demandeBDD = new ClientActeur.demandeClient(idClient, demande, montant, idCompte);
                     demandeDAO.create(demandeBDD);
 
                     compte.setSoldeCompte(compte.getSoldeCompte() + montant);
+                    CompteModel compte_modifie = new CompteModel(compte.getIdCompte(), compte.getIdClient(),compte.getIdBanquier(),compte.getSoldeCompte());
+                    compteDAO.update(compte_modifie);
                     getSender().tell("Vous avez à present : " + compte.getSoldeCompte() + " € sur votre compte n°" + compte.getIdCompte(), getSelf());
                 }
             }
         }
     }
+
 
     @Override
     public Receive createReceive() {

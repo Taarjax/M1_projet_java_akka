@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class BanqueActeur extends AbstractActor {
 
@@ -21,6 +22,9 @@ public class BanqueActeur extends AbstractActor {
     public BanqueActeur(ArrayList<BanquierModel> _listeBanquier) {
         this.listeBanquier = _listeBanquier;
     }
+
+    private final ReentrantLock lock = new ReentrantLock();
+
 
     public static Props props(ArrayList<BanquierModel> _listeBanquier) {
         return Props.create(BanqueActeur.class, _listeBanquier);
@@ -70,7 +74,7 @@ public class BanqueActeur extends AbstractActor {
         if (estLeBonCompte) {
             System.out.println("Banque: interroge votre banquier pour savoir si votre demande est possible, il s'agit du banquier "+ temp_banquier.getIdBanquier());
             CompletionStage<Object> demandeBanqueVersBanquier = Patterns.ask(temp_banquier.getReferenceActeurBanquier(),
-                    new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, idCompte, temp_banquier.getIdBanquier()), Duration.ofSeconds(1));
+                    new BanquierActeur.demandeBanqueVersBanquier(idClient, demande, montant, idCompte, temp_banquier.getIdBanquier()), Duration.ofSeconds(10));
             try {
                 reponseDesBanquiers = (String) demandeBanqueVersBanquier.toCompletableFuture().get();
                 System.out.println("Banque: Retour de la réponse du banquier " + temp_banquier.getIdBanquier() + " concernant le client " + idClient );
