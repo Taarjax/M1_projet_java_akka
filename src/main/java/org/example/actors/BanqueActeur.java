@@ -23,8 +23,6 @@ public class BanqueActeur extends AbstractActor {
         this.listeBanquier = _listeBanquier;
     }
 
-    private final ReentrantLock lock = new ReentrantLock();
-
 
     public static Props props(ArrayList<BanquierModel> _listeBanquier) {
         return Props.create(BanqueActeur.class, _listeBanquier);

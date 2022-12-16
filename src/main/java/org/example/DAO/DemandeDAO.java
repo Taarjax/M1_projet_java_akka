@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 
 public class DemandeDAO extends DAO<ClientActeur.demandeClient> {
@@ -66,6 +67,11 @@ public class DemandeDAO extends DAO<ClientActeur.demandeClient> {
 
     @Override
     public ClientActeur.demandeClient update(ClientActeur.demandeClient ojb) {
+        return null;
+    }
+
+    @Override
+    public List<ClientActeur.demandeClient> getAll() {
         return null;
     }
 }

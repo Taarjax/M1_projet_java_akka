@@ -6,6 +6,7 @@ import org.example.DAO.DAOFactory;
 import org.example.actors.ClientActeur;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientModel {
 // Déclaration attribut
@@ -30,6 +31,22 @@ public class ClientModel {
     public void lancement(ClientActeur.demandeClient demande) {
         System.out.println("Client " + idClient + " demande un : " + demande.getDemande() + " de " + demande.getMontant() + " € sur le compte : " + demande.getIdCompte());
         refActeurClient.tell(new ClientActeur.demandeClient(idClient, demande.getDemande(), demande.getMontant(), demande.getIdCompte()), ActorRef.noSender());
+    }
+
+    public List<CompteModel> getComptesAllComptes() {
+        DAO<CompteModel> compteDAO = DAOFactory.getCompteDAO();
+        List<CompteModel> comptes = new ArrayList<>();
+
+        // Récupérer tous les comptes enregistrés en base de données
+        List<CompteModel> allComptes = compteDAO.getAll();
+
+        // Parcourir la liste de tous les comptes et ajouter ceux qui appartiennent au client donné en paramètre à la liste à retourner
+        for (CompteModel compte : allComptes) {
+            if (compte.getIdClient() == this.idClient) {
+                comptes.add(compte);
+            }
+        }
+        return comptes;
     }
 
     @Override

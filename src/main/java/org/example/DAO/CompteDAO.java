@@ -5,6 +5,8 @@ import org.example.model.CompteModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompteDAO extends DAO<CompteModel> {
 
@@ -61,10 +63,36 @@ public class CompteDAO extends DAO<CompteModel> {
         return compte;
     }
 
-    @Override
-    public void delete(CompteModel obj) {
+    public List<CompteModel> getAll() {
+        List<CompteModel> comptes = new ArrayList<>();
 
+        try {
+            ResultSet result = this.connect.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE
+            ).executeQuery(
+                    "select idCompte, solde, idBanquier, idClient from compte"
+            );
+
+            // Parcourir tous les enregistrements du résultat de la requête et ajouter chaque compte à la liste à retourner
+            while (result.next()) {
+                long idCompte = result.getLong("idCompte");
+                long idClient = result.getLong("idClient");
+                long idBanquier = result.getLong("idBanquier");
+                long solde = result.getLong("solde");
+
+                CompteModel compte = new CompteModel(idCompte, idClient, idBanquier, solde);
+                comptes.add(compte);
+            }
+
+            result.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return comptes;
     }
+
 
     @Override
     public CompteModel update(CompteModel obj) {
@@ -82,4 +110,10 @@ public class CompteDAO extends DAO<CompteModel> {
         }
         return obj;
     }
+
+    @Override
+    public void delete(CompteModel obj) {
+
+    }
+
 }

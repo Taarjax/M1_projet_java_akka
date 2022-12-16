@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import java.sql.Connection;
+import java.util.List;
 
 
 public abstract class DAO<T> {
@@ -14,5 +15,5 @@ public abstract class DAO<T> {
 
     public abstract T update(T ojb);
 
-
+    public abstract List<T> getAll();
 }

@@ -17,7 +17,9 @@ import org.example.model.CompteModel;
 import org.example.DAO.DAO;
 
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainDBO {
@@ -37,8 +39,7 @@ public class MainDBO {
     }
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws InterruptedException {
 
 
         BasicConfigurator.configure();
@@ -60,7 +61,7 @@ public class MainDBO {
         listeComptePourBanquier1.add(compte1);
         listeComptePourBanquier1.add(compte2);
 
-        ArrayList<CompteModel> listeComptePourBanquier2= new ArrayList<>();
+        ArrayList<CompteModel> listeComptePourBanquier2 = new ArrayList<>();
         listeComptePourBanquier2.add(compte3);
 
         ArrayList<CompteModel> listeComptePourBanquier3 = new ArrayList<>();
@@ -102,34 +103,64 @@ public class MainDBO {
 
 
         //Client n°1
+//        DAO<ClientModel> clientDAO = DAOFactory.getClientDAO();
+        //ClientModel client1 = clientDAO.get(1);
+        //ActorRef actorClient1 = system.actorOf(ClientActeur.props(banque));
+        //client1.setRefActeurClient(actorClient1);
+//
+//        //Client n°2
+        //ClientModel client2 = clientDAO.get(2);
+        //  ActorRef actorClient2 = system.actorOf(ClientActeur.props(banque));
+        //    client2.setRefActeurClient(actorClient2);
+//
+//        //Client n°3
+//        ClientModel client3 = clientDAO.get(3);
+//        ActorRef actorClient3 = system.actorOf(ClientActeur.props(banque));
+//        client3.setRefActeurClient(actorClient3);
+//
+//
+//        //Demande du client 1
+//        ClientActeur.demandeClient demande1 = new ClientActeur.demandeClient(client1.getIdClient(), randomDemande(), randomNumber(0, 500), 1);
+//        ClientActeur.demandeClient demande2 = new ClientActeur.demandeClient(client2.getIdClient(), randomDemande(), randomNumber(0, 500), 2);
+//        ClientActeur.demandeClient demande3 = new ClientActeur.demandeClient(client3.getIdClient(), randomDemande(), randomNumber(0, 500), 4);
+
         DAO<ClientModel> clientDAO = DAOFactory.getClientDAO();
-        ClientModel client1 = clientDAO.get(1);
-        ActorRef actorClient1 = system.actorOf(ClientActeur.props(banque));
-        client1.setRefActeurClient(actorClient1);
+        int NB_CLIENTS = clientDAO.getAll().size();
+        int nombreMaximumDemandes = 50;
+        Random random = new Random();
 
-        //Client n°2
-        ClientModel client2 = clientDAO.get(2);
-        ActorRef actorClient2 = system.actorOf(ClientActeur.props(banque));
-        client2.setRefActeurClient(actorClient2);
+        for (int i = 1; i <= NB_CLIENTS; i++) {
+            // Récupération du client à l'aide de la DAO de clients
+            ClientModel client = clientDAO.get(i);
 
-        //Client n°3
-        ClientModel client3 = clientDAO.get(3);
-        ActorRef actorClient3 = system.actorOf(ClientActeur.props(banque));
-        client3.setRefActeurClient(actorClient3);
+            // Création d'un acteur ClientActeur pour le client
+            ActorRef actorClient = system.actorOf(ClientActeur.props(banque));
+            // Enregistrement de l'acteur du client dans l'objet client
+            client.setRefActeurClient(actorClient);
 
+            // Récupération de la liste de tous les comptes du client
+            List<CompteModel> comptes = client.getComptesAllComptes();
 
-        //Demande du client 1
-        ClientActeur.demandeClient demande1 = new ClientActeur.demandeClient(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
-        ClientActeur.demandeClient demande2 = new ClientActeur.demandeClient(client2.getIdClient(), randomDemande(), randomNumber(0,500) ,2);
-        ClientActeur.demandeClient demande3 = new ClientActeur.demandeClient(client3.getIdClient(), randomDemande(), randomNumber(0,500) ,4);
+            // Si le client possède au moins un compte
+            if (!comptes.isEmpty()) {
+                // Boucle sur le nombre maximum de demandes que le client peut faire à la suite
+                for (int j = 0; j < nombreMaximumDemandes; j++) {
+                    // Génération d'une valeur aléatoire comprise entre 0 et 1 avec une probabilité de 0,5 de faire une demande
+                    if (random.nextDouble() < 0.5) {
+                        // Choix au hasard d'un compte parmi la liste des comptes du client
+                        int indexCompte = random.nextInt(comptes.size());
+                        CompteModel compte = comptes.get(indexCompte);
 
-
-        client1.lancement(demande1);
-        client2.lancement(demande2);
-        client3.lancement(demande3);
-
+                        // Création d'un objet demandeClient avec des valeurs aléatoires pour l'identifiant du client, le montant de la demande et l'identifiant du compte
+                        ClientActeur.demandeClient demande = new ClientActeur.demandeClient(client.getIdClient(), randomDemande(), randomNumber(0, 500), compte.getIdCompte());
+                        // Envoi de la demande au client
+                        client.lancement(demande);
+                    }
+                }
+            }
+        }
+        Thread.sleep(500);
         system.terminate();
-
     }
 
 }
