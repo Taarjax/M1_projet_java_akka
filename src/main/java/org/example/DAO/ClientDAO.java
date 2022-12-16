@@ -34,7 +34,6 @@ public class ClientDAO  extends DAO<ClientModel> {
             throw new RuntimeException(e);
         }
         return obj;
-
     }
 
     @Override
