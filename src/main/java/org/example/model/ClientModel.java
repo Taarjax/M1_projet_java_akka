@@ -14,7 +14,7 @@ import java.util.List;
  * @author [remy-auloy]
  */
 public class ClientModel {
-    private long idClient; // L'identifiant de ce client.
+    private int idClient; // L'identifiant de ce client.
     private String Nom; // Le nom de ce client.
     private ActorRef refActeurClient; // Référence vers l'acteur représentant ce client.
 
@@ -29,7 +29,7 @@ public class ClientModel {
      * @param idClient l'identifiant du client
      * @param nom le nom du client
      */
-    public ClientModel(long idClient, String nom){
+    public ClientModel(int idClient, String nom){
         this.idClient = idClient;
         this.Nom = nom;
     }
@@ -40,7 +40,7 @@ public class ClientModel {
      * @param idClient l'identifiant du client
      * @param refActeurClient l'acteur représentant le client
      */
-    public ClientModel(long idClient, ActorRef refActeurClient) {
+    public ClientModel(int idClient, ActorRef refActeurClient) {
         this.idClient = idClient;
         this.refActeurClient = refActeurClient;
 
@@ -92,7 +92,7 @@ public class ClientModel {
      *
      * @return l'identifiant du client
      */
-    public long getIdClient() {
+    public int getIdClient() {
         return idClient;
     }
 

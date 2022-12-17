@@ -1,17 +1,12 @@
 package org.example.model;
-import akka.actor.Actor;
 import akka.actor.ActorRef;
-import akka.pattern.Patterns;
-
-import java.time.Duration;
-import java.util.concurrent.CompletionStage;
 
 /**
  * Classe modèle représentant une banque.
  *  * @author [remy-auloy]
  */
 public class BanqueModel {
-    private long idBanque;
+    private int idBanque;
     private ActorRef refActeurBanque;
 
     /**
@@ -20,7 +15,7 @@ public class BanqueModel {
      * @param _idBanque l'identifiant de la banque
      * @param _refActeurBanque l'acteur représentant la banque
      */
-    public BanqueModel(long _idBanque, ActorRef _refActeurBanque) {
+    public BanqueModel(int _idBanque, ActorRef _refActeurBanque) {
         this.idBanque = _idBanque;
         this.refActeurBanque = _refActeurBanque;
     }

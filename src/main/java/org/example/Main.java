@@ -16,8 +16,17 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 
 
+/**
+ * Classe Main de la classe
+ * Dans cette fonction aucune liaison à la base de donnée est faite
+ */
 public class Main {
 
+    /**
+     * Génère une demande de retrait ou de dépôt de manière aléatoire.
+     *
+     * @return la demande générée (soit "retrait", soit "dépôt")
+     */
     public static String randomDemande() {
         String[] s = new String[]{"retrait", "dépot"};
         Random ran = new Random();
@@ -25,6 +34,14 @@ public class Main {
         return s_ran;
     }
 
+    /**
+     * Génère un nombre entier aléatoire compris entre min et max (inclus).
+     *
+     * @param min le nombre minimum à générer
+     * @param max le nombre maximum à générer
+     * @return le nombre entier aléatoire généré
+     * @throws IllegalArgumentException si min est supérieur ou égal à max
+     */
     private static int randomNumber(int min, int max) {
 
         if (min >= max) {
@@ -35,6 +52,12 @@ public class Main {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    /**
+     * Point d'entrée de l'application de simulation de banque.
+     * Crée les acteurs banque, banquiers et clients, ainsi que leurs modèles respectifs, et génère des demandes simples de la part des clients.
+     *
+     * @param args les arguments de la ligne de commande (non utilisés ici)
+     */
     public static void main(String[] args) {
         BasicConfigurator.configure();
         ActorSystem system = ActorSystem.create();
@@ -89,9 +112,6 @@ public class Main {
         ActorRef actorClient2 = system.actorOf(ClientActeur.props(banque));
         ActorRef actorClient3 = system.actorOf(ClientActeur.props(banque));
 
-
-
-
         ClientModel client1 = new ClientModel(1, actorClient1);
         ClientModel client2 = new ClientModel(2, actorClient2);
         ClientModel client3 = new ClientModel(3, actorClient3);
@@ -107,15 +127,12 @@ public class Main {
         System.out.println("Taille de la liste des banquiers : " + listeBanquier.size());
         System.out.println("------------------------------------");
 
-
 //      ICI SONT LANCÉ LES DEMANDES DES CLIENTS ALÉATOIREMENT
         //client1.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 1);
         //client2.lancement(client2.getIdClient(), randomDemande(), randomNumber(0,500), 2);
         //client2.lancement(client1.getIdClient(), randomDemande(), randomNumber(0,500), 3);
         //client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 4);
         //client3.lancement(client3.getIdClient(), randomDemande(), randomNumber(0,500), 9);
-
-
 
         system.terminate();
     }

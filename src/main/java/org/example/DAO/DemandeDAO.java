@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.actors.ClientActeur;
-import javax.sql.rowset.CachedRowSet;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +14,6 @@ import java.util.List;
  *
  * @author [remy-auloy]
  */
-
-
 public class DemandeDAO extends DAO<ClientActeur.demandeClient> {
     /**
      * Méthode permettant de créer une nouvelle demande dans la base de données.
@@ -43,7 +40,7 @@ public class DemandeDAO extends DAO<ClientActeur.demandeClient> {
 
             // Récupérer l'objet demandeClient en utilisant l'ID obtenu
             if (result.first()) {
-                long id = result.getLong(1);
+                int id = result.getInt(1);
                 obj = this.get(id);
             }
 
@@ -62,14 +59,14 @@ public class DemandeDAO extends DAO<ClientActeur.demandeClient> {
      * @return la demande correspondant à l'identifiant donné
      */
     @Override
-    public ClientActeur.demandeClient get(long id) {
+    public ClientActeur.demandeClient get(int id) {
         ClientActeur.demandeClient demande = new ClientActeur.demandeClient();
         try {
             Statement stmt = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet result = stmt.executeQuery("SELECT * FROM demande where idDemande = " + id);
 
             if (result.first()) {
-                demande = new ClientActeur.demandeClient(result.getLong("idClient"), result.getString("type"), result.getLong("montant"), result.getLong("idCompte"));
+                demande = new ClientActeur.demandeClient(result.getInt("idClient"), result.getString("type"), result.getInt("montant"), result.getInt("idCompte"));
             }
             result.close();
         } catch (SQLException e) {

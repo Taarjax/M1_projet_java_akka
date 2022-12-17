@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class BanquierModel {
     // Attribut
-    private long idBanquier;
+    private int idBanquier;
 
     private String nom;
     private ActorRef ReferenceActeurBanquier;
@@ -29,7 +29,7 @@ public class BanquierModel {
      * @param idBanquier l'identifiant du banquier
      * @param nom le nom du banquier
      */
-    public BanquierModel(long idBanquier, String nom) {
+    public BanquierModel(int idBanquier, String nom) {
         this.idBanquier = idBanquier;
         this.nom = nom;
     }
@@ -42,7 +42,7 @@ public class BanquierModel {
      * @param _listeCompteParBanquier la liste de comptes gérés par le banquier
      * @param _referenceActeurBanquier l'acteur représentant le banquier
      */
-    public BanquierModel(long _idBanquier, String nom, ArrayList<CompteModel> _listeCompteParBanquier, ActorRef _referenceActeurBanquier) {
+    public BanquierModel(int _idBanquier, String nom, ArrayList<CompteModel> _listeCompteParBanquier, ActorRef _referenceActeurBanquier) {
         this.idBanquier = _idBanquier;
         this.nom = nom;
         this.listeCompteParBanquier = _listeCompteParBanquier;
@@ -54,7 +54,7 @@ public class BanquierModel {
      *
      * @return l'identifiant du banquier
      */
-    public long getIdBanquier() {
+    public int getIdBanquier() {
         return idBanquier;
     }
 

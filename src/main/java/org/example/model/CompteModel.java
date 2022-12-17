@@ -1,7 +1,5 @@
 package org.example.model;
 
-import org.example.DAO.DAO;
-import org.example.DAO.DAOFactory;
 
 
 /**
@@ -11,10 +9,10 @@ import org.example.DAO.DAOFactory;
  */
 public class CompteModel {
 
-    private long idClient; // L'identifiant du client associé à ce compte.
-    private long idCompte; // L'identifiant de ce compte.
-    private long idBanquier; // L'identifiant du banquier responsable de ce compte.
-    private long soldeCompte; // Le solde actuel de ce compte.
+    private int idClient; // L'identifiant du client associé à ce compte.
+    private int idCompte; // L'identifiant de ce compte.
+    private int idBanquier; // L'identifiant du banquier responsable de ce compte.
+    private int soldeCompte; // Le solde actuel de ce compte.
 
     /**
      * Constructeur par défaut.
@@ -31,7 +29,7 @@ public class CompteModel {
      * @param idBanquier L'identifiant du banquier responsable de ce compte.
      * @param soldeCompte Le solde actuel de ce compte.
      */
-    public CompteModel(long idCompte, long idClient, long idBanquier, long soldeCompte) {
+    public CompteModel(int idCompte, int idClient, int idBanquier, int soldeCompte) {
         this.idCompte = idCompte;
         this.idClient = idClient;
         this.idBanquier = idBanquier;
@@ -43,7 +41,7 @@ public class CompteModel {
      *
      * @return Le solde actuel de ce compte.
      */
-    public long getSoldeCompte() {
+    public int getSoldeCompte() {
         return soldeCompte;
     }
 
@@ -52,7 +50,7 @@ public class CompteModel {
      *
      * @param soldeCompte Le nouveau solde de ce compte.
      */
-    public void setSoldeCompte(long soldeCompte) {
+    public void setSoldeCompte(int soldeCompte) {
         this.soldeCompte = soldeCompte;
     }
 
@@ -61,7 +59,7 @@ public class CompteModel {
      *
      * @return L'identifiant de ce compte.
      */
-    public long getIdCompte() {
+    public int getIdCompte() {
         return idCompte;
     }
 
@@ -80,7 +78,7 @@ public class CompteModel {
      *
      * @return L'identifiant du client associé à ce compte.
      */
-    public long getIdClient() {
+    public int getIdClient() {
         return idClient;
     }
 
@@ -89,7 +87,7 @@ public class CompteModel {
      *
      * @return L'identifiant du banquier responsable de ce compte.
      */
-    public long getIdBanquier() {
+    public int getIdBanquier() {
         return idBanquier;
     }
 
