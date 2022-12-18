@@ -3,7 +3,6 @@ package org.example;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import org.apache.log4j.BasicConfigurator;
-import org.example.DAO.BanquierDAO;
 import org.example.DAO.DAO;
 import org.example.DAO.DAOFactory;
 import org.example.actors.BanqueActeur;
@@ -14,13 +13,10 @@ import org.example.model.BanquierModel;
 import org.example.model.ClientModel;
 import org.example.model.CompteModel;
 
-import org.example.DAO.DAO;
-
-
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Classe MainDBO de la classe
@@ -35,7 +31,7 @@ public class MainDBO {
      * @return la demande générée (soit "retrait", soit "dépôt")
      */
     public static String randomDemande() {
-        String[] s = new String[]{"retrait", "dépot"};
+        String[] s = new String[]{"retrait", "depot"};
         Random ran = new Random();
         String s_ran = s[ran.nextInt(s.length)];
         return s_ran;
@@ -61,11 +57,11 @@ public class MainDBO {
     /**
      * Génère de manière aléatoire des demandes de la part des clients d'une banque.
      *
-     * @param system l'objet Actor system utilisé pour la création des acteurs client
-     * @param banque le modèle de la banque avec laquelle les clients interagissent
+     * @param system                l'objet Actor system utilisé pour la création des acteurs client
+     * @param banque                le modèle de la banque avec laquelle les clients interagissent
      * @param nombreMaximumDemandes le nombre maximum de demandes que chaque client peut faire à la suite
      */
-    public static void randomLancement(ActorSystem system, BanqueModel banque, int nombreMaximumDemandes){
+    public static void randomLancement(ActorSystem system, BanqueModel banque, int nombreMaximumDemandes) {
         DAO<ClientModel> clientDAO = DAOFactory.getClientDAO();
         int NB_CLIENTS = clientDAO.getAll().size();
         Random random = new Random();
@@ -108,31 +104,48 @@ public class MainDBO {
      * @param system l'objet actor system utilisé pour la création des acteurs client
      * @param banque le modèle de la banque avec laquelle les clients interagissent
      */
-    public static void lancementSimple(ActorSystem system, BanqueModel banque){
-//      Client n°1
-        DAO<ClientModel> clientDAO = DAOFactory.getClientDAO();
-        ClientModel client1 = clientDAO.get(1);
-        ActorRef actorClient1 = system.actorOf(ClientActeur.props(banque));
-        client1.setRefActeurClient(actorClient1);
+    public static void lancementSimple(ActorSystem system, BanqueModel banque) throws InterruptedException {
 
-        //Client n°2
-        ClientModel client2 = clientDAO.get(2);
-        ActorRef actorClient2 = system.actorOf(ClientActeur.props(banque));
-        client2.setRefActeurClient(actorClient2);
+        // Récupération de la liste de tous les clients
+        List<ClientModel> clients = DAOFactory.getClientDAO().getAll();
 
-        //Client n°3
-        ClientModel client3 = clientDAO.get(3);
-        ActorRef actorClient3 = system.actorOf(ClientActeur.props(banque));
-        client3.setRefActeurClient(actorClient3);
+        // Afficher les comptes des clients pour informations
+        for (ClientModel client : clients) {
+            // Récupération de la liste de tous les comptes du client
+            List<CompteModel> comptes = client.getComptesAllComptes();
 
-        //Demande des clients qui doivent passé
-        ClientActeur.demandeClient demande1 = new ClientActeur.demandeClient(client1.getIdClient(), randomDemande(), randomNumber(0, 500), 1);
-        ClientActeur.demandeClient demande2 = new ClientActeur.demandeClient(client2.getIdClient(), randomDemande(), randomNumber(0, 500), 2);
-        ClientActeur.demandeClient demande3 = new ClientActeur.demandeClient(client3.getIdClient(), randomDemande(), randomNumber(0, 500), 4);
+            // Affichage de la liste de tous les comptes du client
+            System.out.println("Le client " + client.getIdClient() + " possède les comptes :");
+            for (CompteModel compte : comptes) {
+                System.out.println("- Compte " + compte.getIdCompte());
+            }
+        }
 
-        client1.lancement(demande1);
-        client2.lancement(demande2);
-        client3.lancement(demande3);
+        System.out.println("------------------------------------");
+
+        // Création des instances de ClientActeur pour chaque client
+        for (ClientModel client : clients) {
+            ActorRef actorClient = system.actorOf(ClientActeur.props(banque));
+            client.setRefActeurClient(actorClient);
+
+            // Récupération de la liste de tous les comptes du client
+            List<CompteModel> comptes = client.getComptesAllComptes();
+
+            // Envoi d'une demande pour chaque compte du client
+            for (CompteModel compte : comptes) {
+                ClientActeur.demandeClient demande = new ClientActeur.demandeClient(client.getIdClient(), randomDemande(), randomNumber(0, 500), compte.getIdCompte());
+                client.lancement(demande);
+            }
+        }
+
+        ClientActeur.demandeClient demandeCompteInexistant = new ClientActeur.demandeClient(clients.get(1).getIdClient(), randomDemande(), randomNumber(0, 500), 9);
+        ClientActeur.demandeClient demandeCompteNonAutorise = new ClientActeur.demandeClient(clients.get(1).getIdClient(), randomDemande(), randomNumber(0, 500), 4);
+
+        // Envoi de demandes sur un compte qui n'existe pas et sur un compte qui n'est pas autorisé
+        clients.get(1).lancement(demandeCompteInexistant);
+        clients.get(1).lancement(demandeCompteNonAutorise);
+
+        Thread.sleep(500);
     }
 
 
@@ -144,12 +157,9 @@ public class MainDBO {
      * @throws InterruptedException si une interruption est détectée pendant la pause de l'application
      */
     public static void main(String[] args) throws InterruptedException {
-
-
         BasicConfigurator.configure();
         ActorSystem system = ActorSystem.create();
         System.out.println("Application lancé");
-
 
         //Creation des comptes
         DAO<CompteModel> compteDAO = DAOFactory.getCompteDAO();
@@ -158,7 +168,6 @@ public class MainDBO {
         CompteModel compte3 = compteDAO.get(3);
         CompteModel compte4 = compteDAO.get(4);
         CompteModel compte5 = compteDAO.get(5);
-
 
 //        //Liste des comptes géré par le banquier n°1
         ArrayList<CompteModel> listeComptePourBanquier1 = new ArrayList<>();
@@ -205,11 +214,35 @@ public class MainDBO {
         ActorRef actorBanque = system.actorOf(BanqueActeur.props(listeBanquier));
         BanqueModel banque = new BanqueModel(1, actorBanque);
 
-        int nbDemandeMaximaleParClient = 2;
-        randomLancement(system, banque, nbDemandeMaximaleParClient);
-        //lancementSimple(system, banque);
-        Thread.sleep(500);
+
+        // Demande à l'utilisateur de choisir entre les deux modes de lancement
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Choisissez le mode de lancement :");
+        System.out.println("1. Lancement simple");
+        System.out.println("2. Lancement aléatoire");
+        int choix = sc.nextInt();
+
+
+        int tempsPause = 0;
+        if (choix == 1) {
+            // Lancement simple
+            lancementSimple(system, banque);
+        } else if (choix == 2) {
+            // Lancement aléatoire
+            System.out.println("Choisissez le nombre de demandes maximales par client :");
+            int nombreDemandes = sc.nextInt();
+            randomLancement(system, banque, nombreDemandes);
+            tempsPause = 500;
+
+            if (nombreDemandes > 10) {
+                tempsPause = (int) (tempsPause * Math.log(nombreDemandes));
+            }
+        } else {
+            System.out.println("Choix incorrect. Veuillez choisir entre les deux modes de lancement disponibles.");
+        }
+
+        sc.close();
+        Thread.sleep(tempsPause);
         system.terminate();
     }
-
 }

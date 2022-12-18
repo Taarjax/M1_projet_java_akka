@@ -132,7 +132,7 @@ public class BanquierActeur extends AbstractActor {
                     getSender().tell("Vous avez à present : " + compte.getSoldeCompte() + " € sur votre compte n°" + compte.getIdCompte(), getSelf());
 
                 }
-            } else if (demande.equals("dépot")) {
+            } else if (demande.equals("depot")) {
                 // Si la demande est un dépôt, on effectue la transaction
                 System.out.println("Banquier " + idBanquier + ": Demande accepté");
                 // On met à jour le solde du compte et on enregistre la demande dans la base de données

@@ -34,17 +34,16 @@ create table if not exists demande
 (
     idDemande int auto_increment
         primary key,
-    type      enum ('dépot', 'retrait') default (elt((floor((rand() * 2)) + 1), _utf8mb4'retrait',
-                                                     _utf8mb4'dÃÂÃÂÃÂÃÂ©pot')) null,
-    montant   int                       default (floor(((rand() * (800 - 0)) + 0)))   not null,
-    idClient  int                                                                     null,
-    idCompte  int                                                                     not null,
+    type      enum ('depot', 'retrait') default (elt((floor((rand() * 2)) + 1), _utf8mb4'retrait',
+                                                     _utf8mb4'depot'))              null,
+    montant   int                       default (floor(((rand() * (800 - 0)) + 0))) not null,
+    idClient  int                                                                   null,
+    idCompte  int                                                                   not null,
     constraint fk_demande_idClient
         foreign key (idClient) references client (idClient),
     constraint fk_demande_idCompte
         foreign key (idCompte) references compte (idCompte)
 );
-
 
 ALTER TABLE client MODIFY COLUMN idClient INT auto_increment;
 ALTER TABLE banquier MODIFY COLUMN idBanquier INT auto_increment;
